@@ -6,6 +6,10 @@ from .views import *
 
 router = routers.DefaultRouter()
 router.register(r'author', AuthorViewset)
+router.register(r'coords', CoordsViewset)
+router.register(r'images', PerevalImagesViewset)
+router.register(r'level', LevelViewset)
+router.register(r'perevaladd', PerevalAddedViewset)
 
 urlpatterns = [
    path('', include(router.urls)),

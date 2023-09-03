@@ -32,7 +32,7 @@ class PerevalImagesSerializer(serializers.HyperlinkedModelSerializer):
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = PerevalImages
+        model = Level
         fields = ['winter',
                   'summer',
                   'autumn',

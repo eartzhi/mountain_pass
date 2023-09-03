@@ -1,8 +1,11 @@
 from .models import *
 from rest_framework import serializers
+from drf_writable_nested.serializers import WritableNestedModelSerializer
+
+from .models import *
 
 
-class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ['email',
@@ -13,7 +16,7 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
                   ]
 
 
-class CoordsSerializer(serializers.HyperlinkedModelSerializer):
+class CoordsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coords
         fields = ['latitude',
@@ -22,7 +25,9 @@ class CoordsSerializer(serializers.HyperlinkedModelSerializer):
                   ]
 
 
-class PerevalImagesSerializer(serializers.HyperlinkedModelSerializer):
+class PerevalImagesSerializer(serializers.ModelSerializer):
+    per_image = serializers.URLField()
+
     class Meta:
         model = PerevalImages
         fields = ['per_image_name',
@@ -30,7 +35,7 @@ class PerevalImagesSerializer(serializers.HyperlinkedModelSerializer):
                   ]
 
 
-class LevelSerializer(serializers.HyperlinkedModelSerializer):
+class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
         fields = ['winter',
@@ -40,7 +45,12 @@ class LevelSerializer(serializers.HyperlinkedModelSerializer):
                   ]
 
 
-class PerevalAddedSerializer(serializers.HyperlinkedModelSerializer):
+class PerevalAddedSerializer(WritableNestedModelSerializer):
+    add_user = AuthorSerializer()
+    coords = CoordsSerializer()
+    level = LevelSerializer()
+    add_image = PerevalImagesSerializer(many=True, allow_null=True)
+
     class Meta:
         model = PerevalAdded
         fields = ['beauty_title',
@@ -54,4 +64,12 @@ class PerevalAddedSerializer(serializers.HyperlinkedModelSerializer):
                   'status',
                   'spr_activities_types'
                   ]
+
+    # def create(self, validated_data, **kwargs):
+    #     images = validated_data.pop('add_image')
+    #     if images:
+    #         for image in images:
+    #             name = image.pop('per_image_name')
+    #             photos = photos.pop(photos)
+    #             PerevalImages.objects.create(perevall=perevall, name=name, photo=photos)
 

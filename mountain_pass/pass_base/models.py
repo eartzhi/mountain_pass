@@ -18,7 +18,7 @@ class Coords(models.Model):
 class PerevalImages(models.Model):
     per_image_name = models.TextField()
     per_image = models.ImageField('Фото', upload_to='Pass_images',
-                               blank=True)
+                               blank=True,  null=True)
 
 
 class Level(models.Model):
@@ -78,7 +78,7 @@ class PerevalAdded(models.Model):
                                     default='NI')
     title = models.TextField()
     other_titles = models.TextField()
-    connect = models.TextField(default='')
+    connect = models.TextField(default='', blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
     add_user = models.ForeignKey(Author, on_delete=models.CASCADE)
     coords = models.ForeignKey(Coords, on_delete=models.CASCADE)

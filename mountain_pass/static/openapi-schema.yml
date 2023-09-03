@@ -3,7 +3,7 @@ info:
   title: 'Some application'
   version: "0.1"
 paths:
-  /perevall/:
+  /perevaladd/:
     get:
       operationId: Perevallist
       description: 'List of perevals'
@@ -29,6 +29,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/pereval'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/pereval'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/pereval'
       responses:
         '201':
           content:
@@ -38,12 +44,11 @@ paths:
           description: Successful operation
         '405':
           description: Invalid input
-          '400':
-            description: Bad Request
+        '400':
+          description: Bad Request
         tags:
           - perevall
-      tags:
-        - schools
+
 
 
 
@@ -71,15 +76,19 @@ components:
           type: string
           example: ''
         add_user:
+          type: object
           $ref: '#/components/schemas/Author'
         coords:
+          type: object
           $ref: '#/components/schemas/Coords'
         level:
+          type: object
           $ref: '#/components/schemas/Level'
         add_time:
           type: string
           format: timezone
         add_image:
+          type: object
           $ref: '#/components/schemas/PerevalImages'
         status:
           type: string
@@ -114,7 +123,7 @@ components:
 
 
     Coords:
-      type: objects
+      type: object
       title: Coords
       description: Координаты
       properties:
@@ -129,7 +138,7 @@ components:
           example: 8848
 
     Level:
-      type: objects
+      type: object
       title: Level
       description: Уровень сложности
       properties:
@@ -179,10 +188,10 @@ components:
       title: PerevalImages
       description: Фотография перевала
       properties:
-        title:
+        per_image_name:
           type: string
           example: Вершина
-        data:
+        per_image:
           type: string
           format: url
           description: Ссылка на фотографию

@@ -1,0 +1,188 @@
+openapi: 3.0.2
+info:
+  title: 'Some application'
+  version: "0.1"
+paths:
+  /perevall/:
+    get:
+      operationId: Perevallist
+      description: 'List of perevals'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+            schema:
+              type: object
+              items:
+              $ref: '#/components/schemas/pereval'
+          description: ''
+      tags:
+        - pereval
+
+    post:
+      operationId: PerevalCreate
+      description: 'Create pereval'
+      parameters: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/pereval'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pereval'
+          description: Successful operation
+        '405':
+          description: Invalid input
+          '400':
+            description: Bad Request
+        tags:
+          - perevall
+      tags:
+        - schools
+
+
+
+
+components:
+  schemas:
+    pereval:
+      type: object
+      title: pereval
+      description: Перевал
+      properties:
+        id:
+          type: integer
+          example: 4
+        beautyTitle:
+          type: string
+          example: перевал
+        title:
+          type: string
+          example: Пхия
+        other_titles:
+          type: string
+          example: Триев
+        connect:
+          type: string
+          example: ''
+        add_user:
+          $ref: '#/components/schemas/Author'
+        coords:
+          $ref: '#/components/schemas/Coords'
+        level:
+          $ref: '#/components/schemas/Level'
+        add_time:
+          type: string
+          format: timezone
+        add_image:
+          $ref: '#/components/schemas/PerevalImages'
+        status:
+          type: string
+          enum:
+              - NEW
+              - PEN
+              - ACC
+              - REJ
+          default: NEW
+
+    Author:
+      type: object
+      title: Author
+      description: Автор
+      properties:
+        email:
+          type: string
+          example: abc@yandex.ru
+        fam:
+          type: string
+          example: Иванов
+        name:
+          type: string
+          example: Иван
+        otc:
+          type: string
+          example: Иванович
+
+        phone:
+          type: string
+          example: +74951111111
+
+
+    Coords:
+      type: objects
+      title: Coords
+      description: Координаты
+      properties:
+        latitude:
+          type: number
+          example: 27.988056
+        longitude:
+          type: number
+          example: 86.925278
+        height:
+          type: integer
+          example: 8848
+
+    Level:
+      type: objects
+      title: Level
+      description: Уровень сложности
+      properties:
+        winter:
+          type: string
+          enum:
+            - NI
+            - A1
+            - B1
+            - A2
+            - B2
+            - A3
+            - B3
+        summer:
+          type: string
+          enum:
+            - NI
+            - A1
+            - B1
+            - A2
+            - B2
+            - A3
+            - B3
+        autumn:
+          type: string
+          enum:
+            - NI
+            - A1
+            - B1
+            - A2
+            - B2
+            - A3
+            - B3
+        spring:
+          type: string
+          enum:
+            - NI
+            - A1
+            - B1
+            - A2
+            - B2
+            - A3
+            - B3
+
+    PerevalImages:
+      type: object
+      title: PerevalImages
+      description: Фотография перевала
+      properties:
+        title:
+          type: string
+          example: Вершина
+        data:
+          type: string
+          format: url
+          description: Ссылка на фотографию

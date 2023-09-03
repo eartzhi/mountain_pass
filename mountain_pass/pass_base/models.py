@@ -84,7 +84,8 @@ class PerevalAdded(models.Model):
     coords = models.ForeignKey(Coords, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     add_image = models.ForeignKey(PerevalImages, on_delete=models.CASCADE)
-    status = models.CharField(choices=STATUS_CHOICE, max_length=3)
+    status = models.CharField(choices=STATUS_CHOICE, max_length=3,
+                              default='NEW')
     spr_activities_types = models.CharField(max_length=2,
                                             choices=ACTIVITIES_CHOICE,
                                             default='1')

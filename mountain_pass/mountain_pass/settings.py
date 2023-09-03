@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'mountain_pass.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'message_board',
+        'NAME': 'mountain_pass',
         'USER': os.getenv("FSTR_DB_LOGIN"),
         'PASSWORD': os.getenv("FSTR_DB_PASS"),
         'HOST': os.getenv("FSTR_DB_HOST"),

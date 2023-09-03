@@ -21,6 +21,27 @@ class PerevalImages(models.Model):
                                blank=True)
 
 
+class Level(models.Model):
+    LEVEL_CHOICE = [
+        ('NI', 'нет информации'),
+        ('A1', '1А'),
+        ('B1', '1Б'),
+        ('А2', '2А'),
+        ('В2', '2Б'),
+        ('А3', '3А'),
+        ('В3', '3Б'),
+    ]
+
+    winter = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+                              default='NI')
+    summer = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+                              default='NI')
+    autumn = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+                              default='NI')
+    spring = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+                             default='NI')
+
+
 class PerevalAdded(models.Model):
     BEAUTY_CHOICE = [
         ('NI', 'нет информации'),
@@ -30,16 +51,6 @@ class PerevalAdded(models.Model):
         ('IO', 'Объект инфраструктуры'),
         ('NO', 'Объект природы'),
 
-    ]
-
-    LEVEL_CHOICE = [
-        ('NI', 'нет информации'),
-        ('A1', '1А'),
-        ('B1', '1Б'),
-        ('А2', '2А'),
-        ('В2', '2Б'),
-        ('А3', '3А'),
-        ('В3', '3Б'),
     ]
 
     STATUS_CHOICE = [
@@ -71,21 +82,9 @@ class PerevalAdded(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     add_user = models.ForeignKey(Author, on_delete=models.CASCADE)
     coords = models.ForeignKey(Coords, on_delete=models.CASCADE)
-    winter = models.CharField(max_length=2, choices=LEVEL_CHOICE,
-                              default='NI')
-    summer = models.CharField(max_length=2, choices=LEVEL_CHOICE,
-                              default='NI')
-    autumn = models.CharField(max_length=2, choices=LEVEL_CHOICE,
-                              default='NI')
-    spring = models.CharField(max_length=2, choices=LEVEL_CHOICE,
-                             default='NI')
+    level = models.ForeignKey(Level, on_delete=models.CASCADE)
     add_image = models.ForeignKey(PerevalImages, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUS_CHOICE, max_length=3)
     spr_activities_types = models.CharField(max_length=2,
                                             choices=ACTIVITIES_CHOICE,
                                             default='1')
-
-
-
-
-

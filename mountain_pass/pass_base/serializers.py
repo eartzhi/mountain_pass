@@ -15,7 +15,7 @@ class AuthorSerializer(serializers.ModelSerializer):
                   'otc'
                   ]
 
-    def create(self, validated_data, **kwargs):
+    def save(self, **kwargs):
         self.is_valid()
         current_author = Author.objects.filter(email=self.validated_data['email'])
         if current_author.exists():
@@ -63,7 +63,7 @@ class PerevalAddedSerializer(WritableNestedModelSerializer):
     author = AuthorSerializer()
     coords = CoordsSerializer()
     level = LevelSerializer()
-    image = ImagesSerializer(many=True, allow_null=True)
+    image = ImagesSerializer(many=True)
 
     class Meta:
         model = PerevalAdded

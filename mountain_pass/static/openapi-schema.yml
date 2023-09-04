@@ -3,7 +3,7 @@ info:
   title: 'Some application'
   version: "0.1"
 paths:
-  /perevaladd/:
+  /SubmitData/:
     get:
       operationId: Perevallist
       description: 'List of perevals'

@@ -66,7 +66,7 @@ class PerevalAddedSerializer(WritableNestedModelSerializer):
     image = ImagesSerializer(many=True)
 
     class Meta:
-        model = PerevalAdded
+        model = Pereval
         fields = ['beauty_title',
                   'title',
                   'other_titles',
@@ -79,38 +79,34 @@ class PerevalAddedSerializer(WritableNestedModelSerializer):
                   'spr_activities_types'
                   ]
 
-    # def create(self, validated_data, **kwargs):
-    #     author = validated_data.pop('author')
-    #         # coords = validated_data.pop('coords')
-    #         # level = validated_data.pop('level')
-    #         # images = validated_data.pop('image')
-    #
-    #     current_author = Author.objects.filter(email=author['email'])
-    #     if current_author.exists():
-    #         pereval = PerevalAdded.objects.create(**validated_data,
-    #                                               author=current_author,
-    #                                               )
-    #         # author_serializer = AuthorSerializer(data=author)
-    #         # author_serializer.is_valid(raise_exception=True)
-    #         # author = author_serializer.save()
-    #     else:
-    #         author = Author.objects.create(**author)
-    #
-    #         # coords = Coords.objects.create(**coords)
-    #         # level = Level.objects.create(**level)
-    #         pereval = PerevalAdded.objects.create(**validated_data,
-    #                                                # add_image=images,
-    #                                                   author=author,
-    #                                                # coords=coords,
-    #                                                # level=level
-    #                                                  )
-    #
-    #         # if images:
-    #         #     for image in images:
-    #         #         per_image_name = image.pop('image_name')
-    #         #         per_image = image.pop('image')
-    #         #         Images.objects.create(pereval=pereval,
-    #         #                               per_image_name=per_image_name,
-    #         #                               per_image=per_image)
-    #
-    #     return pereval
+    def create(self, validated_data, **kwargs):
+        author = validated_data.pop('author')
+        coords = validated_data.pop('coords')
+        level = validated_data.pop('level')
+        images = validated_data.pop('image')
+
+        current_author = Author.objects.filter(email=author['email'])
+        if current_author.exists():
+            author_serializer = AuthorSerializer(data=author)
+            author_serializer.is_valid(raise_exception=True)
+            author = author_serializer.save()
+        else:
+            author = Author.objects.create(**author)
+
+        coords = Coords.objects.create(**coords)
+        level = Level.objects.create(**level)
+        pereval = Pereval.objects.create(**validated_data,
+                                         author=author,
+                                         coords=coords,
+                                         level=level
+                                        )
+
+        if images:
+            for image in images:
+                image_name = image.pop('image_name')
+                image = image.pop('image')
+                Images.objects.create(pereval=pereval,
+                                      image_name=image_name,
+                                      image=image)
+
+        return pereval

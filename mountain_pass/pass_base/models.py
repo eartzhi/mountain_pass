@@ -15,11 +15,6 @@ class Coords(models.Model):
     height = models.IntegerField(verbose_name='высота')
 
 
-class Images(models.Model):
-    image_name = models.TextField(verbose_name='комментарий')
-    image = models.URLField(verbose_name='фотография', blank=True, null=True)
-
-
 class Level(models.Model):
     LEVEL_CHOICE = [
         ('NI', 'нет информации'),
@@ -49,7 +44,7 @@ class Level(models.Model):
                               default='NI')
 
 
-class PerevalAdded(models.Model):
+class Pereval(models.Model):
     BEAUTY_CHOICE = [
         ('NI', 'нет информации'),
         ('PS', 'Перевал'),
@@ -96,8 +91,6 @@ class PerevalAdded(models.Model):
                                verbose_name='координаты')
     level = models.ForeignKey(Level, on_delete=models.CASCADE,
                               verbose_name='уровень сложности')
-    image = models.ForeignKey(Images, on_delete=models.CASCADE,
-                              null=True, verbose_name='фотографии')
     status = models.CharField(choices=STATUS_CHOICE, max_length=3,
                               default='NEW', verbose_name='статус')
     spr_activities_types = models.CharField(max_length=2,
@@ -105,3 +98,9 @@ class PerevalAdded(models.Model):
                                             default='1',
                                             verbose_name='активность'
                                             )
+
+class Images(models.Model):
+    image_name = models.TextField(verbose_name='комментарий')
+    image = models.URLField(verbose_name='фотография', blank=True, null=True)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE,
+                                verbose_name='перевал', related_name='image')

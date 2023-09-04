@@ -60,9 +60,6 @@ components:
       title: pereval
       description: Перевал
       properties:
-        id:
-          type: integer
-          example: 4
         beautyTitle:
           type: string
           example: перевал

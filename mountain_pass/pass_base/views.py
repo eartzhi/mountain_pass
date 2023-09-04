@@ -19,8 +19,8 @@ class CoordsViewset(viewsets.ModelViewSet):
 
 
 class PerevalImagesViewset(viewsets.ModelViewSet):
-    queryset = PerevalImages.objects.all()
-    serializer_class = PerevalImagesSerializer
+    queryset = Images.objects.all()
+    serializer_class = ImagesSerializer
 
 
 class LevelViewset(viewsets.ModelViewSet):

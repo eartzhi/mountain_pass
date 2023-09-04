@@ -75,7 +75,7 @@ components:
         connect:
           type: string
           example: ''
-        add_user:
+        author:
           type: object
           $ref: '#/components/schemas/Author'
         coords:
@@ -87,9 +87,13 @@ components:
         add_time:
           type: string
           format: timezone
-        add_image:
-          type: object
-          $ref: '#/components/schemas/PerevalImages'
+        image:
+          type: array
+          $ref: '#/components/schemas/Images'
+          example: [
+                     {"image_name": "вершина 1", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
+                     {"image_name": "вершина 2", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
+                   ]
         status:
           type: string
           enum:
@@ -183,9 +187,9 @@ components:
             - A3
             - B3
 
-    PerevalImages:
+    Images:
       type: object
-      title: PerevalImages
+      title: Images
       description: Фотография перевала
       properties:
         per_image_name:

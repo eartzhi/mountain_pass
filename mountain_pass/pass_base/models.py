@@ -2,23 +2,22 @@ from django.db import models
 
 
 class Author(models.Model):
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=12)
-    fam = models.CharField(max_length=30)
-    name = models.CharField(max_length=30)
-    otc = models.CharField(max_length=30)
+    email = models.EmailField(verbose_name='электронная почта', unique=True)
+    phone = models.CharField(verbose_name='номер телефона', max_length=12)
+    fam = models.CharField(verbose_name='фамилия', max_length=30)
+    name = models.CharField(verbose_name='имя', max_length=30)
+    otc = models.CharField(verbose_name='отчество', max_length=30)
 
 
 class Coords(models.Model):
-    latitude = models.FloatField(max_length=8)
-    longitude = models.FloatField(max_length=8)
-    height = models.IntegerField()
+    latitude = models.FloatField(verbose_name='широта', max_length=8)
+    longitude = models.FloatField(verbose_name='долгота', max_length=8)
+    height = models.IntegerField(verbose_name='высота')
 
 
-class PerevalImages(models.Model):
-    per_image_name = models.TextField()
-    per_image = models.ImageField('Фото', upload_to='Pass_images',
-                               blank=True,  null=True)
+class Images(models.Model):
+    image_name = models.TextField(verbose_name='комментарий')
+    image = models.URLField(verbose_name='фотография', blank=True, null=True)
 
 
 class Level(models.Model):
@@ -32,14 +31,22 @@ class Level(models.Model):
         ('В3', '3Б'),
     ]
 
-    winter = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+    winter = models.CharField(verbose_name='уровень сложности зимой',
+                              max_length=2,
+                              choices=LEVEL_CHOICE,
                               default='NI')
-    summer = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+    summer = models.CharField(verbose_name='уровень сложности летом',
+                              max_length=2,
+                              choices=LEVEL_CHOICE,
                               default='NI')
-    autumn = models.CharField(max_length=2, choices=LEVEL_CHOICE,
+    autumn = models.CharField(verbose_name='уровень сложности осенью',
+                              max_length=2,
+                              choices=LEVEL_CHOICE,
                               default='NI')
-    spring = models.CharField(max_length=2, choices=LEVEL_CHOICE,
-                             default='NI')
+    spring = models.CharField(verbose_name='уровень сложности весной',
+                              max_length=2,
+                              choices=LEVEL_CHOICE,
+                              default='NI')
 
 
 class PerevalAdded(models.Model):
@@ -74,18 +81,27 @@ class PerevalAdded(models.Model):
         ('11', 'верхом'),
     ]
 
-    beauty_title = models.CharField(max_length=2, choices=BEAUTY_CHOICE,
+    beauty_title = models.CharField(verbose_name='тип высоты',
+                                    max_length=2,
+                                    choices=BEAUTY_CHOICE,
                                     default='NI')
-    title = models.TextField()
-    other_titles = models.TextField()
-    connect = models.TextField(default='', blank=True)
+    title = models.TextField(verbose_name='название')
+    other_titles = models.TextField(verbose_name='комментарий')
+    connect = models.TextField(verbose_name='соединение',
+                               default='', blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
-    add_user = models.ForeignKey(Author, on_delete=models.CASCADE)
-    coords = models.ForeignKey(Coords, on_delete=models.CASCADE)
-    level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    add_image = models.ForeignKey(PerevalImages, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE,
+                               verbose_name='автор')
+    coords = models.ForeignKey(Coords, on_delete=models.CASCADE,
+                               verbose_name='координаты')
+    level = models.ForeignKey(Level, on_delete=models.CASCADE,
+                              verbose_name='уровень сложности')
+    image = models.ForeignKey(Images, on_delete=models.CASCADE,
+                              null=True, verbose_name='фотографии')
     status = models.CharField(choices=STATUS_CHOICE, max_length=3,
-                              default='NEW')
+                              default='NEW', verbose_name='статус')
     spr_activities_types = models.CharField(max_length=2,
                                             choices=ACTIVITIES_CHOICE,
-                                            default='1')
+                                            default='1',
+                                            verbose_name='активность'
+                                            )

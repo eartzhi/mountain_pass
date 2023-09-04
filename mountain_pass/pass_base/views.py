@@ -24,7 +24,7 @@ class LevelViewset(viewsets.ModelViewSet):
     serializer_class = LevelSerializer
 
 
-class PerevalAddedViewset(viewsets.ModelViewSet):
+class SubmitData(viewsets.ModelViewSet):
     queryset = Pereval.objects.all()
     serializer_class = PerevalAddedSerializer
     http_method_names = ['get', 'post', 'head', 'patch', 'options']

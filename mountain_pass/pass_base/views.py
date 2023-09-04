@@ -1,10 +1,6 @@
-from django.shortcuts import render
-from django.shortcuts import render
-from rest_framework import permissions
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 
-
-from .models import *
 from .serializers import *
 
 
@@ -31,4 +27,19 @@ class LevelViewset(viewsets.ModelViewSet):
 class PerevalAddedViewset(viewsets.ModelViewSet):
     queryset = Pereval.objects.all()
     serializer_class = PerevalAddedSerializer
+    http_method_names = ['get', 'post', 'head', 'patch', 'options']
+
+    def create(self, request, *args, **kwargs):
+        serializer = PerevalAddedSerializer(data=request.data)
+        if serializer.is_valid():
+            obj = serializer.save()
+            return Response({f'status': status.HTTP_201_CREATED,
+                             'message': 'Запись успешно создана',
+                             'id': obj.id})
+        if status.HTTP_400_BAD_REQUEST:
+            return Response({'status': status.HTTP_400_BAD_REQUEST,
+                             'message': serializer.errors})
+        if status.HTTP_500_INTERNAL_SERVER_ERROR:
+            return Response({'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
+                             'message': serializer.errors})
 

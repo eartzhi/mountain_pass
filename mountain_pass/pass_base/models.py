@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Author(models.Model):
-    email = models.EmailField(verbose_name='электронная почта', unique=True)
+    email = models.EmailField(verbose_name='электронная почта')
     phone = models.CharField(verbose_name='номер телефона', max_length=12)
     fam = models.CharField(verbose_name='фамилия', max_length=30)
     name = models.CharField(verbose_name='имя', max_length=30)

@@ -99,6 +99,7 @@ class Pereval(models.Model):
                                             verbose_name='активность'
                                             )
 
+
 class Images(models.Model):
     image_name = models.TextField(verbose_name='комментарий')
     image = models.URLField(verbose_name='фотография', blank=True, null=True)

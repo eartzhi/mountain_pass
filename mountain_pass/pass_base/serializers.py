@@ -19,7 +19,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         self.is_valid()
         current_author = Author.objects.filter(email=self.validated_data['email'])
         if current_author.exists():
-            return
+            return current_author
         else:
             new_author = Author.objects.create(
                 fam=self.validated_data.get('fam'),
@@ -99,7 +99,7 @@ class PerevalAddedSerializer(WritableNestedModelSerializer):
                                          author=author,
                                          coords=coords,
                                          level=level
-                                        )
+                                         )
 
         if images:
             for image in images:

@@ -85,11 +85,13 @@ class PerevalAddedSerializer(WritableNestedModelSerializer):
         level = validated_data.pop('level')
         images = validated_data.pop('image')
 
-        current_author = Author.objects.filter(email=author['email'])
-        if current_author.exists():
-            author = current_author.first()
-        else:
-            author = Author.objects.create(**author)
+        author, created = Author.objects.get_or_create(**author)
+
+        # current_author = Author.objects.filter(email=author['email'])
+        # if current_author.exists():
+        #     author = current_author.first()
+        # else:
+        #     author = Author.objects.create(**author)
 
         # current_author = Author.objects.filter(email=author['email'])
         # if current_author.exists():

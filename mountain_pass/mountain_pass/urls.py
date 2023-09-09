@@ -28,6 +28,7 @@ router.register(r'coords', CoordsViewset)
 router.register(r'images', PerevalImagesViewset)
 router.register(r'level', LevelViewset)
 router.register(r'SubmitData', SubmitData)
+router.register(r'GET/SubmitData/<int:pk>', SubmitData)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

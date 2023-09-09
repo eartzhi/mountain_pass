@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+import django_filters
 
 from .serializers import *
 
@@ -27,6 +28,8 @@ class LevelViewset(viewsets.ModelViewSet):
 class SubmitData(viewsets.ModelViewSet):
     queryset = Pereval.objects.all()
     serializer_class = PerevalAddedSerializer
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ('author__email',)
     http_method_names = ['get', 'post', 'head', 'patch', 'options']
 
     def create(self, request, *args, **kwargs):

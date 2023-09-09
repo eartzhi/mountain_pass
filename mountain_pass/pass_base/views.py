@@ -46,3 +46,5 @@ class SubmitData(viewsets.ModelViewSet):
             return Response({'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
                              'message': serializer.errors})
 
+    def patch(self, request, pk):
+

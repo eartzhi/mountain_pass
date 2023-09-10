@@ -47,4 +47,27 @@ class SubmitData(viewsets.ModelViewSet):
                              'message': serializer.errors})
 
     def patch(self, request, pk):
-
+        pereval = Pereval.objects.get(id=pk)
+        author = pereval.author
+        if pereval.status == 'NEW':
+            request.data.author = author
+            serializer = PerevalAddedSerializer(pereval, data=request.data,
+                                                 partial=True)
+            if serializer.is_valid():
+                obj = serializer.save()
+                return Response(
+                    {"state": 1,
+                     "message": "Запись успешно отредактирована",
+                     'id': obj.id})
+            if status.HTTP_400_BAD_REQUEST:
+                return Response({"state": 0,
+                                 'status': status.HTTP_400_BAD_REQUEST,
+                                 'message': serializer.errors})
+            if status.HTTP_500_INTERNAL_SERVER_ERROR:
+                return Response({"state": 0,
+                                 'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                 'message': serializer.errors})
+        else:
+            return Response({"state": 0,
+                             "message": "Запись уже рассмотрена модератором"},
+                            status=400)

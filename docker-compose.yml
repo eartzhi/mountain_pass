@@ -2,49 +2,33 @@ version: '3.11'
 
 services:
 
-  redis:
-    restart: unless-stopped
-    image: redis:latest
-    container_name: rd01
-    ports:
-      - '6379:6379'
-
   web:
     restart: unless-stopped
-    build: ./NewsPaper
+    build: ./mountain_pass
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./NewsPaper/:/usr/src/app/
-    image: newspaper
+      - ./mountain_pass/:/usr/src/app/
+    image: mountain_pass
     ports:
       - 8000:8000
     env_file:
-      - .env
-    links:
-      - redis
+      - ./mountain_pass/.env
     depends_on:
-      - redis
+      - db
 
-  celery:
-    build: ./NewsPaper
-    restart: unless-stopped
-    container_name: cl01
-    command: celery -A NewsPaper worker -l info
+  db:
+    # Использование готового образа postgres
+    image: postgres
+    # Задание переменных окружения для контейнера с postgres
+    environment:
+      - POSTGRES_DB=mountain_pass
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+     # Задание имени контейнера для сервиса pgdb
+    container_name: db
+     # Связывание тома с директорией в контейнере для сохранения данных postgres
     volumes:
-      - ./NewsPaper/:/usr/src/app/
-      - ./NewsPaper/db.sqlite3:/usr/src/app/
-    depends_on:
-      - redis
-    env_file:
-      - .env
+      - db:/var/lib/postgresql/data/
 
-  celery-beat:
-    build: ./NewsPaper
-    restart: unless-stopped
-    command: celery -A NewsPaper beat -l info
-    volumes:
-      - ./NewsPaper/:/usr/src/app/
-    depends_on:
-      - redis
-    env_file:
-      - .env
+volumes:
+  db: null

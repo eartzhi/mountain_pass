@@ -5,7 +5,7 @@ info:
 paths:
   /SubmitData/:
     get:
-      operationId: Perevallist
+      operationId: SubmitData
       description: 'List of perevals'
       parameters: []
       responses:
@@ -16,12 +16,12 @@ paths:
               type: object
               items:
               $ref: '#/components/schemas/pereval'
-          description: ''
+          description: Success
       tags:
         - pereval
 
     post:
-      operationId: PerevalCreate
+      operationId: SubmitData
       description: 'Create pereval'
       parameters: [ ]
       requestBody:
@@ -41,17 +41,95 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/pereval'
-          description: Successful operation
+          description: Success'
         '405':
           description: Invalid input
         '400':
           description: Bad Request
         tags:
-          - perevall
+          - pereval
 
+  /SubmitData/{id}/:
+    get:
+        operationId: SubmitData
+        description: 'Get pereval by ID'
+        parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        responses:
+          '200' :
+            $ref: '#/components/schemas/pereval'
+            description: 'Success'
+          '404':
+            description: 'Not found'
+            content:
+              text/plain:
+                schema:
+                  title: Not found
+                  type: string
+                  example: Not found
+          '500':
+            description: Invalid input
+            content:
+              application/json:
+                schema:
+                  title: error
+        tags:
+          - pereval
 
+    patch:
+        operationId: SubmitData
+        description: 'Partial update by ID'
+        parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pereval'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/pereval'
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/pereval'
+        responses:
+          '200' :
+            $ref: '#/components/schemas/pereval'
+            description: Success
+          '404' :
+            description: Not found
+        tags:
+        - pereval
 
-
+  /SubmitData/?author__email={email}:
+    get:
+      description: SubmitData
+      operationId: 'Search by email'
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+            schema:
+              type: object
+              items:
+              $ref: '#/components/schemas/pereval'
+          description: Success
+      tags:
+        - pereval
 
 components:
   schemas:
@@ -195,4 +273,4 @@ components:
         per_image:
           type: string
           format: url
-          description: Ссылка на фотографию
+          description: Photo link

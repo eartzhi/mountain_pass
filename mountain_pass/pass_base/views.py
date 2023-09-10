@@ -48,16 +48,22 @@ class SubmitData(viewsets.ModelViewSet):
 
     def partial_update(self, request, pk):
         pereval = Pereval.objects.get(id=pk)
-        # author = pereval.author
-        if pereval.status == 'NEW':
+        message = 'Запись успешно отредактирована'
+
+        if 'author' in request.data:
             request.data.pop('author')
+            message = ('Запись успешно отредактирована. '
+                       'Замена автора не предусмотрена.')
+
+
+        if pereval.status == 'NEW':
             serializer = PerevalAddedSerializer(pereval, data=request.data,
                                                  partial=True)
             if serializer.is_valid():
                 obj = serializer.save()
                 return Response(
                     {"state": 1,
-                     "message": "Запись успешно отредактирована",
+                     "message": message,
                      'id': obj.id})
             if status.HTTP_400_BAD_REQUEST:
                 return Response({"state": 0,

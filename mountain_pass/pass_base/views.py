@@ -46,11 +46,11 @@ class SubmitData(viewsets.ModelViewSet):
             return Response({'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
                              'message': serializer.errors})
 
-    def patch(self, request, pk):
+    def partial_update(self, request, pk):
         pereval = Pereval.objects.get(id=pk)
-        author = pereval.author
+        # author = pereval.author
         if pereval.status == 'NEW':
-            request.data.author = author
+            request.data.pop('author')
             serializer = PerevalAddedSerializer(pereval, data=request.data,
                                                  partial=True)
             if serializer.is_valid():

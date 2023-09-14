@@ -11,7 +11,7 @@ class TestSimple(APITransactionTestCase):
 
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.view = SubmitData.as_view()
+        self.view = SubmitData.as_view({'post': 'create'})
         self.my_url = '/SubmitData/'
         start_data_1 = {
                 "beauty_title": "NI",
@@ -47,8 +47,8 @@ class TestSimple(APITransactionTestCase):
                         }
                         ],
                 "status": "NEW",
-                "spr_activities_types": "3"
-               },
+                "spr_activities_types": "3",
+               }
 
         start_data_2 = {
                 "beauty_title": "NI",
@@ -57,50 +57,55 @@ class TestSimple(APITransactionTestCase):
                 "connect": "",
                 "author": {
                   "email": "abc02@yandex.ru",
-                  "phone": "74952222222",
+                  "phone": "749522222",
                   "fam": "Второв",
                   "name": "Два",
                   "otc": "Двович"
                          },
                 "coords": {
-                  "latitude": 02.988056,
-                  "longitude": 02.925278,
-                  "height": 20022
+                  "latitude": 01.98805,
+                  "longitude": 01.92527,
+                  "height": 10011
                           },
                 "level": {
-                  "winter": "IO",
-                  "summer": "IO",
-                  "autumn": "IO",
-                  "spring": "IO"
+                  "winter": "NI",
+                  "summer": "NI",
+                  "autumn": "NI",
+                  "spring": "NI"
                         },
                 "image": [
                         {
-                    "image_name": "Стартовая вершина 1",
+                    "image_name": "Стартовая вершина 3",
                     "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"
                         },
                         {
-                    "image_name": "Стартовая вершина 2",
+                    "image_name": "Стартовая вершина 4",
                     "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"
                         }
                         ],
-                "status": "ACC",
-                "spr_activities_types": "3"
-               },
+                "status": "NEW",
+                "spr_activities_types": "3",
+               }
 
-        start_data_1 = json.dumps(start_data_1)
-        start_data_2 = json.dumps(start_data_2)
+        # start_data_1 = json.dumps(start_data_1)
+        # start_data_2 = json.dumps(start_data_2)
 
-        response_1 = self.client.post(self.my_url, json=start_data_1)
-        print(Pereval.objects.last())
-        response_2 = self.client.post(self.my_url, json=start_data_2)
+        request_1 = self.factory.post(self.my_url,
+                                      start_data_1,
+                                      format='json')
+        request_2 = self.factory.post(self.my_url,
+                                      start_data_2,
+                                      format='json')
+        response_1 = self.view(request_1)
+        response_2 = self.view(request_2)
 
         self.assertEqual(response_1.status_code, status.HTTP_200_OK)
         self.assertEqual(response_2.status_code, status.HTTP_200_OK)
-        self.assertEquals(Pereval.objects.all().count(), 2)
+        self.assertEquals(Pereval.objects.count(), 2)
 
     def test_pereval_addition(self):
         data_1 = {
-                "beauty_title": "NI",
+                "beauty_title": "PS",
                 "title": "test_title1",
                 "other_titles": "test_other_title1",
                 "connect": "",
@@ -134,48 +139,60 @@ class TestSimple(APITransactionTestCase):
                         ],
                 "status": "NEW",
                 "spr_activities_types": "1"
-               },
+               }
+
         data_2 = {
-                "beauty_title": "NI",
+                "beauty_title": "GL",
                 "title": "test_title2",
                 "other_titles": "test_other_title2",
                 "connect": "",
                 "author": {
-                  "email": "abc2@yandex.ru",
-                  "phone": "74957654321",
-                  "fam": "Петров",
-                  "name": "Петр",
-                  "otc": "Петрович"
+                  "email": "abc1@yandex.ru",
+                  "phone": "74951234567",
+                  "fam": "Иванов",
+                  "name": "Иван",
+                  "otc": "Иванович"
                          },
                 "coords": {
-                  "latitude": 22.988056,
-                  "longitude": 22.925278,
-                  "height": 22222
+                  "latitude": 11.988056,
+                  "longitude": 11.925278,
+                  "height": 11111
                           },
                 "level": {
-                  "winter": "PS",
-                  "summer": "PS",
-                  "autumn": "PS",
-                  "spring": "PS"
+                  "winter": "NI",
+                  "summer": "NI",
+                  "autumn": "NI",
+                  "spring": "NI"
                         },
                 "image": [
                         {
-                    "image_name": "Тестовая вершина 3",
+                    "image_name": "Тестовая вершина 1",
                     "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"
                         },
                         {
-                    "image_name": "Тестовая вершина 4",
+                    "image_name": "Тестовая вершина 2",
                     "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"
                         }
                         ],
                 "status": "NEW",
-                "spr_activities_types": "2"
-               },
+                "spr_activities_types": "1"
+               }
 
-        response_1 = self.client.post(url=self.my_url,
-                                    json=data_1)
-        response_2 = self.client.post(url=self.my_url,
-                                    json=data_2)
+        request_1 = self.factory.post(self.my_url,
+                                      data_1,
+                                      format='json')
+        response_1 = self.view(request_1)
+
+        new_pass = Pereval.objects.last()
+        self.assertEqual(new_pass.title, 'test_title1')
+        self.assertEqual(new_pass.other_titles, 'test_other_title1')
+        self.assertEqual(new_pass.status, 'NEW')
+
+        request_2 = self.factory.post(self.my_url,
+                                      data_2,
+                                      format='json')
+        # response_1 = self.view(request_1)
+        response_2 = self.view(request_2)
 
         new_pass = Pereval.objects.last()
         self.assertEquals(Pereval.objects.count(), 4)

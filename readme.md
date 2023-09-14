@@ -1,13 +1,15 @@
-openapi: 3.0.2
-info:
-  title: 'Mountain pass'
-  version: "0.1"
-paths:
-  /SubmitData/:
+    openapi: 3.0.2
+      info:
+      title: 'Mountain pass'
+      version: "0.1"
+
+    paths:
+      /SubmitData/:
+
     get:
       operationId: SubmitData
       description: 'List of perevals'
-      parameters: []
+      parameters: [ ]
       responses:
         '200':
           content:
@@ -49,36 +51,36 @@ paths:
         tags:
           - pereval
 
-  /SubmitData/{id}/:
-    get:
-        operationId: SubmitData
-        description: 'Get pereval by ID'
-        parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-        responses:
-          '200' :
-            $ref: '#/components/schemas/pereval'
-            description: 'Success'
-          '404':
-            description: 'Not found'
-            content:
-              text/plain:
-                schema:
-                  title: Not found
-                  type: string
-                  example: Not found
-          '500':
-            description: Invalid input
-            content:
-              application/json:
-                schema:
-                  title: error
-        tags:
-          - pereval
+    /SubmitData/{id}/:
+      get:
+          operationId: SubmitData
+          description: 'Get pereval by ID'
+          parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: integer
+          responses:
+            '200' :
+              $ref: '#/components/schemas/pereval'
+              description: 'Success'
+            '404':
+              description: 'Not found'
+              content:
+                text/plain:
+                  schema:
+                    title: Not found
+                    type: string
+                    example: Not found
+            '500':
+              description: Invalid input
+              content:
+                application/json:
+                  schema:
+                    title: error
+          tags:
+            - pereval
 
     patch:
         operationId: SubmitData
@@ -109,74 +111,74 @@ paths:
         tags:
         - pereval
 
-  /SubmitData/?author__email={email}:
-    get:
-      description: SubmitData
-      operationId: 'Search by email'
-      parameters:
-        - name: email
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
+    /SubmitData/?author__email={email}:
+      get:
+        description: SubmitData
+        operationId: 'Search by email'
+        parameters:
+          - name: email
+            in: path
+            required: true
             schema:
+              type: string
+        responses:
+          '200':
+            content:
+              application/json:
+              schema:
+                type: object
+                items:
+                $ref: '#/components/schemas/pereval'
+            description: Success
+        tags:
+          - pereval
+  
+    components:
+      schemas:
+        pereval:
+          type: object
+          title: pereval
+          description: Перевал
+          properties:
+            beautyTitle:
+              type: string
+              example: перевал
+            title:
+              type: string
+              example: Пхия
+            other_titles:
+              type: string
+              example: Триев
+            connect:
+              type: string
+              example: ''
+            author:
               type: object
-              items:
-              $ref: '#/components/schemas/pereval'
-          description: Success
-      tags:
-        - pereval
-
-components:
-  schemas:
-    pereval:
-      type: object
-      title: pereval
-      description: Перевал
-      properties:
-        beautyTitle:
-          type: string
-          example: перевал
-        title:
-          type: string
-          example: Пхия
-        other_titles:
-          type: string
-          example: Триев
-        connect:
-          type: string
-          example: ''
-        author:
-          type: object
-          $ref: '#/components/schemas/Author'
-        coords:
-          type: object
-          $ref: '#/components/schemas/Coords'
-        level:
-          type: object
-          $ref: '#/components/schemas/Level'
-        add_time:
-          type: string
-          format: timezone
-        image:
-          type: array
-          $ref: '#/components/schemas/Images'
-          example: [
-                     {"image_name": "вершина 1", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
-                     {"image_name": "вершина 2", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
-                   ]
-        status:
-          type: string
-          enum:
-              - NEW
-              - PEN
-              - ACC
-              - REJ
-          default: NEW
+              $ref: '#/components/schemas/Author'
+            coords:
+              type: object
+              $ref: '#/components/schemas/Coords'
+            level:
+              type: object
+              $ref: '#/components/schemas/Level'
+            add_time:
+              type: string
+              format: timezone
+            image:
+              type: array
+              $ref: '#/components/schemas/Images'
+              example: [
+                         {"image_name": "вершина 1", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
+                         {"image_name": "вершина 2", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
+                       ]
+            status:
+              type: string
+              enum:
+                  - NEW
+                  - PEN
+                  - ACC
+                  - REJ
+              default: NEW
 
     Author:
       type: object

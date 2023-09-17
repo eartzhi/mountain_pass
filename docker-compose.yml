@@ -5,10 +5,11 @@ services:
   web:
     restart: unless-stopped
     build: ./mountain_pass
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000 --insecure
     volumes:
       - ./mountain_pass/:/usr/src/app/
     image: mountain_pass
+    container_name: mountain_pass
     ports:
       - 8000:8000
     env_file:

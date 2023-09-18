@@ -1,3 +1,16 @@
+
+This is the final project for python backend developer course.
+
+Company has received an order from the Sports Tourism Federation of Russia (FSTR).
+
+The FSTR is an organization engaged in the development and popularization of sports tourism in Russia and supervises the conduct of All—Russian competitions in this sport.
+
+Tourists will use the mobile application. In the mountains, they will enter data about the pass into the application and send them to the FSTR as soon as Internet access becomes available.
+
+A moderator from the federation will verify and enter information received from users into the database, and those in turn will be able to see the moderation status in the mobile application and view the database with objects entered by others.
+
+Addition information see /swagger-ui/.
+
     openapi: 3.0.2
       info:
       title: 'Mountain pass'
@@ -166,11 +179,13 @@
               format: timezone
             image:
               type: array
-              $ref: '#/components/schemas/Images'
-              example: [
-                         {"image_name": "вершина 1", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
-                         {"image_name": "вершина 2", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg"},
-                       ]
+              items:
+                type: object
+                $ref: '#/components/schemas/Image'
+                example: [
+                { "image_name": "вершина 1", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg" },
+                { "image_name": "вершина 2", "image": "https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg" },
+              ]
             status:
               type: string
               enum:
@@ -264,15 +279,16 @@
             - A3
             - B3
 
-    Images:
+    Image:
       type: object
       title: Images
       description: Фотография перевала
       properties:
-        per_image_name:
+        image_name:
           type: string
           example: Вершина
-        per_image:
+        image:
           type: string
           format: url
           description: Photo link
+          example: https://klike.net/uploads/posts/2022-11/1667370486_7-8.jpg

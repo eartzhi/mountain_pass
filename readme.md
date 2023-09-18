@@ -14,8 +14,6 @@ A moderator from the federation will verify and enter information received from 
 
 For output information see /swagger-ui/ or information below.
 
-REST API:
-
     openapi: 3.0.2
       info:
       title: 'Mountain pass'

@@ -1,6 +1,8 @@
 
 This is the final project for python backend developer course.
 
+Input information:
+
 Company has received an order from the Sports Tourism Federation of Russia (FSTR).
 
 The FSTR is an organization engaged in the development and popularization of sports tourism in Russia and supervises the conduct of All—Russian competitions in this sport.
@@ -9,7 +11,10 @@ Tourists will use the mobile application. In the mountains, they will enter data
 
 A moderator from the federation will verify and enter information received from users into the database, and those in turn will be able to see the moderation status in the mobile application and view the database with objects entered by others.
 
-Addition information see /swagger-ui/.
+
+For output information see /swagger-ui/ or information below.
+
+REST API:
 
     openapi: 3.0.2
       info:
